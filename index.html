@@ -301,6 +301,8 @@
         let pickerYear = new Date().getFullYear();
         let pickerMonth = new Date().getMonth();
         let pickerDay = new Date().getDate();
+        let calendarYear = new Date().getFullYear();
+        let calendarMonth = new Date().getMonth();
 
         // データ管理
         function getRecords() {
@@ -431,6 +433,8 @@
         function toggleCalendar() {
             showingCalendar = !showingCalendar;
             if (showingCalendar) {
+                calendarYear = new Date().getFullYear();
+                calendarMonth = new Date().getMonth();
                 renderCalendar();
                 document.getElementById('listView').classList.add('hidden');
                 document.getElementById('calendarView').classList.remove('hidden');
@@ -439,10 +443,21 @@
             }
         }
 
+        function changeCalendarMonth(delta) {
+            calendarMonth += delta;
+            if (calendarMonth > 11) {
+                calendarMonth = 0;
+                calendarYear++;
+            } else if (calendarMonth < 0) {
+                calendarMonth = 11;
+                calendarYear--;
+            }
+            renderCalendar();
+        }
+
         function renderCalendar() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
+            const year = calendarYear;
+            const month = calendarMonth;
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -457,7 +472,9 @@
             let html = `
                 <div class="calendar">
                     <div class="calendar-header">
+                        <button class="btn-primary" onclick="changeCalendarMonth(-1)">◀</button>
                         <h3>${year}年${month + 1}月</h3>
+                        <button class="btn-primary" onclick="changeCalendarMonth(1)">▶</button>
                     </div>
                     <div class="calendar-grid">
                         <div style="text-align: center; font-weight: bold;">日</div>
