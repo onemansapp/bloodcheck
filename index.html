@@ -279,7 +279,7 @@
                 <button class="btn-history" style="flex: 1;" onclick="toggleCalendar()">📅</button>
             </div>
             <div class="header">
-                <h2 id="historyTitle">血圧記録履歴</h2>
+                <h2 id="historyTitle">履歴</h2>
             </div>
             <div id="listView"></div>
             <div id="calendarView" class="hidden"></div>
@@ -401,7 +401,7 @@
         // 履歴表示
         function showHistory() {
             showScreen('history');
-            document.getElementById('historyTitle').textContent = `血圧記録履歴 (ユーザー: ${currentUser})`;
+            document.getElementById('historyTitle').textContent = `履歴 (ユーザー: ${currentUser})`;
             showingCalendar = false;
             renderList();
         }
@@ -716,4 +716,5 @@
     </script>
 </body>
 </html>
+
 
