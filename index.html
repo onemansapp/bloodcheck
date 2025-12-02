@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacMacSystemFont, 'Segoe UI', sans-serif;
             background: #f5f5f5;
             touch-action: manipulation;
         }
@@ -20,6 +20,7 @@
             margin: 0 auto;
             min-height: 100vh;
             background: white;
+            position: relative; /* ハンバーガーメニューのために追加 */
         }
         .screen {
             padding: 20px;
@@ -228,10 +229,122 @@
             color: #2196F3;
             margin: 20px 0;
         }
+
+        /* ハンバーガーメニュー */
+        .hamburger-menu {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 101; /* 他のボタンより上に */
+        }
+        .hamburger-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 8px;
+            cursor: pointer;
+            background: #4A6A7E;
+            border-radius: 8px;
+        }
+        .hamburger-icon span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background: white;
+            border-radius: 2px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; /* 初期状態では画面外 */
+            width: 300px;
+            height: 100%;
+            background: #f9f9f9;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+            z-index: 102;
+            transition: right 0.3s ease-in-out;
+            padding-top: 80px;
+        }
+        .sidebar.open {
+            right: 0;
+        }
+        .sidebar-item {
+            padding: 15px 20px;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            color: #333;
+        }
+        .sidebar-item:hover {
+            background: #eee;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 101;
+        }
+        .overlay.show {
+            display: block;
+        }
+
+        /* 使い方モーダルのスタイル */
+        .usage-content {
+            text-align: left;
+        }
+        .usage-content h3 {
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #4A6A7E;
+        }
+        .usage-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 10px;
+        }
+        .usage-content li {
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .usage-content li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #4A6A7E;
+        }
+        .usage-content p {
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="app">
+        <!-- ハンバーガーメニューアイコン -->
+        <div class="hamburger-menu" onclick="toggleSidebar()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- サイドバーメニュー -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-item" onclick="showUsage()">使い方</div>
+            <div class="sidebar-item" onclick="goHome(); toggleSidebar()">ホームに戻る</div>
+        </div>
+
+        <!-- オーバーレイ -->
+        <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
         <!-- ユーザー選択画面 -->
         <div id="userScreen" class="screen">
             <h2 style="text-align: center; margin-top: 100px;">ユーザーを選択</h2>
@@ -243,7 +356,7 @@
         <!-- 入力画面 -->
         <div id="inputScreen" class="screen hidden">
             <div class="top-buttons">
-                <button class="btn-clear" style="flex: 1;" onclick="clearInput()">クリア</button>
+                <button class="btn-clear" style="flex: 1;" onclick="clearInput()">消</button>
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
                 <button class="btn-history" style="flex: 1;" onclick="showHistory()">履歴</button>
             </div>
@@ -265,9 +378,9 @@
                 <h2>測定時間帯を選択してください</h2>
             </div>
             <div class="time-buttons">
-                <button class="time-btn btn-primary" onclick="saveRecord('朝')">🌅</button>
-                <button class="time-btn btn-primary" onclick="saveRecord('昼')">🌞</button>
-                <button class="time-btn btn-primary" onclick="saveRecord('夜')">🌙</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('朝')">朝</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('昼')">昼</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('夜')">夜</button>
             </div>
         </div>
 
@@ -333,6 +446,10 @@
         function goHome() {
             selectedDate = null;
             showScreen('user');
+            // サイドバーが開いていたら閉じる
+            if (document.getElementById('sidebar').classList.contains('open')) {
+                toggleSidebar();
+            }
         }
 
         function clearInput() {
@@ -420,7 +537,7 @@
                             <div><small>最高血圧</small><br><strong>${r.systolic}</strong></div>
                             <div><small>最低血圧</small><br><strong>${r.diastolic}</strong></div>
                             <div><small>脈拍</small><br><strong>${r.pulse}</strong></div>
-                            <div style="font-size: 32px;">${r.timeOfDay === '朝' ? '🌅' : r.timeOfDay === '昼' ? '🌞' : '🌙'}</div>
+                            <div style="font-size: 32px;">${r.timeOfDay === '朝' ? '朝' : r.timeOfDay === '昼' ? '昼' : '夜'}</div>
                         </div>
                     </div>
                 `).join('');
@@ -530,7 +647,7 @@
                 <h3>${new Date(records[0].date).toLocaleDateString('ja-JP')} の記録</h3>
                 ${records.map(r => `
                     <div class="record-card" onclick="editRecord('${r.date}')">
-                        <div>${r.timeOfDay === '朝' ? '🌅 朝' : r.timeOfDay === '昼' ? '🌞 昼' : '🌙 夜'}</div>
+                        <div>${r.timeOfDay === '朝' ? '朝 朝' : r.timeOfDay === '昼' ? '昼 昼' : '夜 夜'}</div>
                         <div class="record-values">
                             <div><small>最高</small><br><strong>${r.systolic}</strong></div>
                             <div>/</div>
@@ -555,9 +672,9 @@
                 <input type="number" id="editDia" value="${record.diastolic}" placeholder="最低血圧">
                 <input type="number" id="editPul" value="${record.pulse}" placeholder="脈拍">
                 <div class="time-buttons">
-                    <button class="time-btn ${record.timeOfDay === '朝' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('朝')">🌅</button>
-                    <button class="time-btn ${record.timeOfDay === '昼' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('昼')">🌞</button>
-                    <button class="time-btn ${record.timeOfDay === '夜' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('夜')">🌙</button>
+                    <button class="time-btn ${record.timeOfDay === '朝' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('朝')">朝</button>
+                    <button class="time-btn ${record.timeOfDay === '昼' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('昼')">昼</button>
+                    <button class="time-btn ${record.timeOfDay === '夜' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('夜')">夜</button>
                 </div>
                 <button class="btn-danger" style="width: 100%; margin: 16px 0;" onclick="deleteRecord('${date}')">この記録を削除</button>
                 <div style="display: flex; gap: 8px;">
@@ -571,8 +688,11 @@
 
         function setEditTime(time) {
             window.editingTime = time;
-            editRecord(document.querySelector('.modal-content input').dataset.date || new Date().toISOString());
+            // 編集中のレコードのdateを渡すために、modal-content内のinput要素からdateを取得する
+            const currentModalDate = document.querySelector('#modalBody input[id="editSys"]').closest('.modal-content').querySelector('button[onclick^="deleteRecord"]').onclick.toString().match(/'([^']+)'/)[1];
+            editRecord(currentModalDate);
         }
+
 
         function updateRecord(oldDate) {
             const records = getRecords();
@@ -589,7 +709,12 @@
 
             saveRecords(records);
             closeModal();
-            showHistory();
+            // 履歴がカレンダー表示中の場合、カレンダーを再描画する
+            if (showingCalendar) {
+                renderCalendar();
+            } else {
+                showHistory();
+            }
         }
 
         function deleteRecord(date) {
@@ -597,7 +722,12 @@
             const records = getRecords().filter(r => r.date !== date);
             saveRecords(records);
             closeModal();
-            showHistory();
+            // 履歴がカレンダー表示中の場合、カレンダーを再描画する
+            if (showingCalendar) {
+                renderCalendar();
+            } else {
+                showHistory();
+            }
         }
 
         function exportCSV() {
@@ -713,9 +843,80 @@
             showScreen('input');
             clearInput();
         }
+
+        // ハンバーガーメニュー関連の関数
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        function showUsage() {
+            const usageHtml = `
+                <div class="usage-content">
+                    <h2>📖 血圧記録アプリ 使い方</h2>
+                    
+                    <h3>🚀 基本の使い方</h3>
+                    <p>1️⃣ ユーザーを選択</p>
+                    <ul>
+                        <li>起動すると「ユーザーA」「ユーザーB」「ユーザーC」のボタンが表示されます</li>
+                        <li>記録したいユーザーをタップして選択</li>
+                    </ul>
+                    <p>2️⃣ 血圧を入力</p>
+                    <ul>
+                        <li>最高血圧 → 最低血圧 → 脈拍 の順に数字を入力</li>
+                    </ul>
+                    <p>3️⃣ 測定時間帯を選択</p>
+                    <ul>
+                        <li>朝 / 昼 / 夜 から選択</li>
+                    </ul>
+                    
+                    <h3>🎯 便利な機能</h3>
+                    <p>📊 履歴を見る</p>
+                    <ul>
+                        <li>上部の「履歴」ボタンで履歴を表示</li>
+                    </ul>
+                    <p>📅 カレンダー表示</p>
+                    <ul>
+                        <li>履歴画面で「📅」ボタンをタップ</li>
+                        <li>月ごとのカレンダーで記録を確認</li>
+                    </ul>
+                    <p>➕ 過去の記録を追加</p>
+                    <ul>
+                        <li><strong>方法1: カレンダーから空白の日をタップ</strong>
+                            <ul><li>カレンダー表示で記録のない日をタップ</li>
+                            <li>その日付で記録を追加できます</li></ul>
+                        </li>
+                        <li><strong>方法2: 追加ボタンから</strong>
+                            <ul><li>カレンダー表示時、下部の「➕ 追加」ボタンをタップ</li>
+                            <li>年月日を選択して、好きな日付の記録を追加できます</li></ul>
+                        </li>
+                    </ul>
+                    <p>📋 CSVエクスポート</p>
+                    <ul>
+                        <li>履歴画面で「出力」ボタンをタップ</li>
+                        <li>記録をCSVファイルとして保存・共有できます</li>
+                    </ul>
+                    <p>🗑️ クリア</p>
+                    <ul>
+                        <li>入力画面で「消去」ボタンをタップ</li>
+                        <li>すべての入力をクリアして最初からやり直せます</li>
+                    </ul>
+                    <p>🏠 ホーム</p>
+                    <ul>
+                        <li>どの画面からでも「🏠」ボタンでユーザー選択画面に戻れます</li>
+                    </ul>
+                    
+                    <p>✅ データは自動保存</p>
+                    <ul><li>ブラウザを閉じても記録は消えません</li></ul>
+                    <p>✅ 1日に何回でも記録できる</p>
+                    <ul><li>朝、昼、夜など、1日に複数回測定できます</li></ul>
+                    <p>✅ 過去の記録も追加できる</p>
+                    <ul><li>測り忘れた日の記録も後から追加できます</li></ul>
+                    <button class="btn-primary" style="width: 100%; margin-top: 16px;" onclick="closeModal(); toggleSidebar();">閉じる</button>
+                </div>
+            `;
+            showModal(usageHtml);
+        }
     </script>
 </body>
 </html>
-
-
-
