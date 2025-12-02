@@ -232,15 +232,14 @@
 </head>
 <body>
     <div class="app">
-        <!-- ユーザー選択画面 -->
         <div id="userScreen" class="screen">
             <h2 style="text-align: center; margin-top: 100px;">ユーザーを選択</h2>
             <button class="user-btn btn-primary" onclick="selectUser('A')">ユーザー A</button>
             <button class="user-btn btn-primary" onclick="selectUser('B')">ユーザー B</button>
             <button class="user-btn btn-primary" onclick="selectUser('C')">ユーザー C</button>
+            <button class="user-btn btn-history" onclick="showHelpModal()" style="background: #6B7C8A; margin-top: 40px;">使い方 📖</button>
         </div>
 
-        <!-- 入力画面 -->
         <div id="inputScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-clear" style="flex: 1;" onclick="clearInput()">クリア</button>
@@ -248,14 +247,12 @@
                 <button class="btn-history" style="flex: 1;" onclick="showHistory()">履歴</button>
             </div>
             <div class="header">
-               <!-- <h2>血圧を入力してください</h2> -->
-            </div>
+               </div>
             <input type="number" id="systolic" placeholder="最高血圧" maxlength="3">
             <input type="number" id="diastolic" placeholder="最低血圧" maxlength="3">
             <input type="number" id="pulse" placeholder="脈拍" maxlength="3">
         </div>
 
-        <!-- 時間帯選択画面 -->
         <div id="timeScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
@@ -271,7 +268,6 @@
             </div>
         </div>
 
-        <!-- 履歴画面 -->
         <div id="historyScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-primary" style="flex: 1;" onclick="exportCSV()">出力</button>
@@ -286,7 +282,6 @@
         </div>
     </div>
 
-    <!-- モーダル -->
     <div id="modal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
@@ -628,6 +623,60 @@
             }
         }
 
+        // --- 追加された関数: 使い方モーダルの表示 ---
+        function showHelpModal() {
+            const html = `
+                <div style="max-width: 400px; text-align: left; line-height: 1.6;">
+                    <h2 style="text-align: center; color: #4A6A7E;">📖 血圧記録アプリ 使い方</h2>
+                    
+                    <h3 style="margin-top: 20px;">🚀 基本の使い方</h3>
+                    <ol style="margin-left: 20px; padding: 0;">
+                        <li><strong>ユーザーを選択</strong>
+                            <p style="margin-top: 5px;">起動すると「ユーザーA」「ユーザーB」「ユーザーC」のボタンが表示されます。記録したいユーザーをタップして選択します。</p>
+                        </li>
+                        <li><strong>血圧を入力</strong>
+                            <p style="margin-top: 5px;">最高血圧 → 最低血圧 → 脈拍 の順に数字を入力します。入力が完了すると次の画面に進みます。</p>
+                        </li>
+                        <li><strong>測定時間帯を選択</strong>
+                            <p style="margin-top: 5px;">朝 / 昼 / 夜 から選択すると、記録が自動的に保存されます。</p>
+                        </li>
+                    </ol>
+                    
+                    <h3 style="margin-top: 20px;">🎯 便利な機能</h3>
+                    <ul style="margin-left: 20px; padding: 0; list-style-type: disc;">
+                        <li><strong>📊 履歴を見る</strong>
+                            <p style="margin-top: 5px;">上部の「<strong>履歴</strong>」ボタンで記録一覧を表示します。</p>
+                        </li>
+                        <li><strong>📅 カレンダー表示</strong>
+                            <p style="margin-top: 5px;">履歴画面で「<strong>📅</strong>」ボタンをタップすると、月ごとのカレンダーで記録を確認できます。</p>
+                        </li>
+                        <li><strong>➕ 過去の記録を追加</strong>
+                            <p style="margin-top: 5px;">カレンダー表示で記録のない日をタップするか、下部の「<strong>➕ 追加</strong>」ボタンから日付を選んで記録を追加できます。</p>
+                        </li>
+                        <li><strong>📋 CSVエクスポート</strong>
+                            <p style="margin-top: 5px;">履歴画面で「<strong>出力</strong>」ボタンをタップすると、記録をCSVファイルとして保存・共有できます。</p>
+                        </li>
+                        <li><strong>🗑️ クリア</strong>
+                            <p style="margin-top: 5px;">入力画面で「**クリア**」ボタンをタップすると、入力中の数字を消去できます。</p>
+                        </li>
+                        <li><strong>🏠 ホーム</strong>
+                            <p style="margin-top: 5px;">どの画面からでも「**🏠**」ボタンでユーザー選択画面に戻れます。</p>
+                        </li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 20px; color: #E53935;">✅ その他の特徴</h3>
+                    <ul style="margin-left: 20px; padding: 0; list-style-type: none;">
+                        <li>✅ データは自動保存</li>
+                        <li>✅ 1日に何回でも記録できる</li>
+                        <li>✅ 過去の記録も追加できる</li>
+                    </ul>
+                    <button class="btn-primary" style="width: 100%; margin-top: 20px;" onclick="closeModal()">閉じる</button>
+                </div>
+            `;
+            showModal(html);
+        }
+        // --- 追加された関数ここまで ---
+
         function showDatePicker() {
             const now = new Date();
             pickerYear = now.getFullYear();
@@ -716,8 +765,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
