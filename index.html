@@ -281,7 +281,7 @@
             <div class="menu-item" onclick="showUsage()">
                 📖 使い方
             </div>
-            <div class="menu-item" onclick="exportCSV(); toggleMenu();">
+            <!-- <div class="menu-item" onclick="exportCSV(); toggleMenu();"> -->
                 📋 CSV出力
             </div>
             <div class="menu-item" onclick="toggleMenu()">
@@ -290,6 +290,7 @@
         </div>
 
         <div id="userScreen" class="screen">
+            <h2 style="text-align: center; margin-top: 100px;">ユーザーを選択</h2>
             <button class="user-btn btn-primary" onclick="selectUser('A')">ユーザー A</button>
             <button class="user-btn btn-primary" onclick="selectUser('B')">ユーザー B</button>
             <button class="user-btn btn-primary" onclick="selectUser('C')">ユーザー C</button>
@@ -385,6 +386,7 @@
                     <h4>4. 履歴とカレンダー</h4>
                     <p>📊ボタンでリスト形式の履歴、📅ボタンでカレンダー形式の履歴を確認できます。</p>
                     <p>カレンダーの「➕追加」ボタンから、日付を指定して過去の記録を入力することもできます。</p>
+                    <p>📋ボタンで、データを書き出します
                 </div>
 
                 <div class="usage-step">
@@ -813,3 +815,4 @@
     </script>
 </body>
 </html>
+
