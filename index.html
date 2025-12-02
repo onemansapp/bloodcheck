@@ -530,7 +530,7 @@
                 <h3>${new Date(records[0].date).toLocaleDateString('ja-JP')} の記録</h3>
                 ${records.map(r => `
                     <div class="record-card" onclick="editRecord('${r.date}')">
-                        <div>${r.timeOfDay === '朝' ? '朝 朝' : r.timeOfDay === '昼' ? '昼 昼' : '夜 夜'}</div>
+                        <div>${r.timeOfDay === '朝' ? '朝' : r.timeOfDay === '昼' ? '昼' : '夜'}</div>
                         <div class="record-values">
                             <div><small>最高</small><br><strong>${r.systolic}</strong></div>
                             <div>/</div>
@@ -716,6 +716,7 @@
     </script>
 </body>
 </html>
+
 
 
 
