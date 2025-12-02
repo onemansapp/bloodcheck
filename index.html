@@ -20,7 +20,6 @@
             margin: 0 auto;
             min-height: 100vh;
             background: white;
-            position: relative; /* メニューの基準 */
         }
         .screen {
             padding: 20px;
@@ -46,7 +45,6 @@
             background: white;
             z-index: 100;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding-right: 60px; /* ハンバーガーメニュー分の余白 */
         }
         button {
             padding: 12px 24px;
@@ -60,14 +58,36 @@
         button:active {
             transform: scale(0.95);
         }
-        .btn-primary { background: #4A6A7E; color: white; flex: 1; }
-        .btn-secondary { background: #4A6A7E; color: white; flex: 1; }
-        .btn-danger { background: #E53935; color: white; }
-        .btn-success { background: #6B7C8A; color: white; }
-        .btn-clear { background: #E53935; color: white; }
-        .btn-home { background: #6B7C8A; color: white; }
-        .btn-history { background: #4A6A7E; color: white; }
-        
+        .btn-primary {
+            background: #4A6A7E;
+            color: white;
+            flex: 1;
+        }
+        .btn-secondary {
+            background: #4A6A7E;
+            color: white;
+            flex: 1;
+        }
+        .btn-danger {
+            background: #E53935;
+            color: white;
+        }
+        .btn-success {
+            background: #6B7C8A;
+            color: white;
+        }
+        .btn-clear {
+            background: #E53935;
+            color: white;
+        }
+        .btn-home {
+            background: #6B7C8A;
+            color: white;
+        }
+        .btn-history {
+            background: #4A6A7E;
+            color: white;
+        }
         .user-btn {
             width: 100%;
             height: 80px;
@@ -93,7 +113,9 @@
             height: 56px;
             font-size: 32px;
         }
-        .calendar { margin: 20px 0; }
+        .calendar {
+            margin: 20px 0;
+        }
         .calendar-header {
             display: flex;
             justify-content: space-between;
@@ -120,7 +142,9 @@
             background: #E3F2FD;
             font-weight: bold;
         }
-        .calendar-day.empty:hover { background: #f5f5f5; }
+        .calendar-day.empty:hover {
+            background: #f5f5f5;
+        }
         .record-card {
             background: white;
             border: 1px solid #ddd;
@@ -156,10 +180,13 @@
             max-width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            width: 500px; /* 少し幅を確保 */
         }
-        .hidden { display: none !important; }
-        h2 { margin-bottom: 16px; }
+        .hidden {
+            display: none !important;
+        }
+        h2 {
+            margin-bottom: 16px;
+        }
         .add-button-container {
             text-align: center;
             margin-top: 20px;
@@ -175,8 +202,9 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        /* デートピッカー用スタイル */
-        .date-picker { text-align: center; }
+        .date-picker {
+            text-align: center;
+        }
         .date-selector {
             display: flex;
             align-items: center;
@@ -184,7 +212,10 @@
             margin: 16px 0;
             gap: 16px;
         }
-        .date-selector button { padding: 8px 16px; font-size: 18px; }
+        .date-selector button {
+            padding: 8px 16px;
+            font-size: 18px;
+        }
         .date-selector span {
             font-size: 20px;
             font-weight: bold;
@@ -197,117 +228,34 @@
             color: #2196F3;
             margin: 20px 0;
         }
-
-        /* --- ハンバーガーメニュー追加用 CSS --- */
-        .hamburger-btn {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            width: 44px;
-            height: 44px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            border: none;
-        }
-        .side-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1998;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-        .side-menu-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -280px;
-            width: 280px;
-            height: 100%;
-            background: white;
-            z-index: 1999;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            padding-top: 60px;
-        }
-        .side-menu.open {
-            right: 0;
-        }
-        .menu-item {
-            padding: 16px 24px;
-            font-size: 18px;
-            font-weight: bold;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .menu-item:hover {
-            background: #f5f5f5;
-        }
-        .usage-step {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .usage-step h4 {
-            color: #2196F3;
-            margin-bottom: 8px;
-        }
     </style>
 </head>
 <body>
     <div class="app">
-        
-        <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
-
-        <div id="menuOverlay" class="side-menu-overlay" onclick="toggleMenu()"></div>
-        <div id="sideMenu" class="side-menu">
-            <div class="menu-item" onclick="showUsage()">
-                📖 使い方
-            </div>
-            <!-- <div class="menu-item" onclick="exportCSV(); toggleMenu();"> -->
-                📋 CSV出力
-            </div>
-            <div class="menu-item" onclick="toggleMenu()">
-                ❌ メニューを閉じる
-            </div>
-        </div>
-
+        <!-- ユーザー選択画面 -->
         <div id="userScreen" class="screen">
-            <h2 style="text-align: center; margin-top: 100px;">ユーザーを選択</h2>
+            <h2 style="text-align: center; margin-top: 100px;">ユーザーを選択してください</h2>
             <button class="user-btn btn-primary" onclick="selectUser('A')">ユーザー A</button>
             <button class="user-btn btn-primary" onclick="selectUser('B')">ユーザー B</button>
             <button class="user-btn btn-primary" onclick="selectUser('C')">ユーザー C</button>
         </div>
 
+        <!-- 入力画面 -->
         <div id="inputScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-clear" style="flex: 1;" onclick="clearInput()">クリア</button>
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
                 <button class="btn-history" style="flex: 1;" onclick="showHistory()">📊</button>
             </div>
-            <div class="header"></div>
+            <div class="header">
+               <!-- <h2>血圧を入力してください</h2> -->
+            </div>
             <input type="number" id="systolic" placeholder="最高血圧" maxlength="3">
             <input type="number" id="diastolic" placeholder="最低血圧" maxlength="3">
             <input type="number" id="pulse" placeholder="脈拍" maxlength="3">
         </div>
 
+        <!-- 時間帯選択画面 -->
         <div id="timeScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
@@ -323,6 +271,7 @@
             </div>
         </div>
 
+        <!-- 履歴画面 -->
         <div id="historyScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-primary" style="flex: 1;" onclick="exportCSV()">📋</button>
@@ -337,6 +286,7 @@
         </div>
     </div>
 
+    <!-- モーダル -->
     <div id="modal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
@@ -353,52 +303,6 @@
         let pickerDay = new Date().getDate();
         let calendarYear = new Date().getFullYear();
         let calendarMonth = new Date().getMonth();
-
-        // --- メニュー操作用 JS ---
-        function toggleMenu() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.getElementById('menuOverlay');
-            menu.classList.toggle('open');
-            overlay.classList.toggle('open');
-        }
-
-        function showUsage() {
-            toggleMenu(); // メニューを閉じる
-            const html = `
-                <h2>📱 使い方ガイド</h2>
-                
-                <div class="usage-step">
-                    <h4>1. ユーザー選択</h4>
-                    <p>最初に記録するユーザー（A, B, C）を選びます。</p>
-                </div>
-
-                <div class="usage-step">
-                    <h4>2. データの入力</h4>
-                    <p><strong>最高血圧 → 最低血圧 → 脈拍</strong> の順に入力します。数字を入れると自動で次の枠に移動します。</p>
-                </div>
-
-                <div class="usage-step">
-                    <h4>3. 時間帯の選択</h4>
-                    <p>入力が終わったら、測定した時間帯（🌅朝・🌞昼・🌙夜）ボタンを押して保存します。</p>
-                </div>
-
-                <div class="usage-step">
-                    <h4>4. 履歴とカレンダー</h4>
-                    <p>📊ボタンでリスト形式の履歴、📅ボタンでカレンダー形式の履歴を確認できます。</p>
-                    <p>カレンダーの「➕追加」ボタンから、日付を指定して過去の記録を入力することもできます。</p>
-                    <p>📋ボタンで、データを書き出します
-                </div>
-
-                <div class="usage-step">
-                    <h4>5. 修正・削除</h4>
-                    <p>履歴リストやカレンダーの日付をタップすると、記録の修正や削除ができます。</p>
-                </div>
-
-                <button class="btn-primary" style="width: 100%;" onclick="closeModal()">閉じる</button>
-            `;
-            showModal(html);
-        }
-        // -----------------------
 
         // データ管理
         function getRecords() {
@@ -697,10 +601,6 @@
         }
 
         function exportCSV() {
-            if (!currentUser) {
-                alert('ユーザーを選択してから履歴画面で実行してください。');
-                return;
-            }
             const records = getUserRecords(currentUser).sort((a, b) => 
                 new Date(a.date) - new Date(b.date)
             );
@@ -723,7 +623,7 @@
         }
 
         function closeModal(event) {
-            if (!event || event.target.id === 'modal' || !event.target.id) {
+            if (!event || event.target.id === 'modal') {
                 document.getElementById('modal').classList.remove('show');
             }
         }
@@ -786,6 +686,7 @@
                 pickerMonth = 11;
                 pickerYear--;
             }
+            // 日付の調整
             const maxDay = new Date(pickerYear, pickerMonth + 1, 0).getDate();
             if (pickerDay > maxDay) pickerDay = maxDay;
             updateDatePickerDisplay();
