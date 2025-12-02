@@ -245,7 +245,7 @@
             <div class="top-buttons">
                 <button class="btn-clear" style="flex: 1;" onclick="clearInput()">クリア</button>
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
-                <button class="btn-history" style="flex: 1;" onclick="showHistory()">📊</button>
+                <button class="btn-history" style="flex: 1;" onclick="showHistory()">履歴</button>
             </div>
             <div class="header">
                <!-- <h2>血圧を入力してください</h2> -->
@@ -259,22 +259,22 @@
         <div id="timeScreen" class="screen hidden">
             <div class="top-buttons">
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
-                <button class="btn-history" style="flex: 1;" onclick="showHistory()">📊</button>
+                <button class="btn-history" style="flex: 1;" onclick="showHistory()">履歴</button>
             </div>
             <div class="header">
                 <h2>測定時間帯を選択してください</h2>
             </div>
             <div class="time-buttons">
-                <button class="time-btn btn-primary" onclick="saveRecord('朝')">🌅</button>
-                <button class="time-btn btn-primary" onclick="saveRecord('昼')">🌞</button>
-                <button class="time-btn btn-primary" onclick="saveRecord('夜')">🌙</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('朝')">朝</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('昼')">昼</button>
+                <button class="time-btn btn-primary" onclick="saveRecord('夜')">夜</button>
             </div>
         </div>
 
         <!-- 履歴画面 -->
         <div id="historyScreen" class="screen hidden">
             <div class="top-buttons">
-                <button class="btn-primary" style="flex: 1;" onclick="exportCSV()">📋</button>
+                <button class="btn-primary" style="flex: 1;" onclick="exportCSV()">出力</button>
                 <button class="btn-home" style="flex: 1;" onclick="goHome()">🏠</button>
                 <button class="btn-history" style="flex: 1;" onclick="toggleCalendar()">📅</button>
             </div>
@@ -420,7 +420,7 @@
                             <div><small>最高血圧</small><br><strong>${r.systolic}</strong></div>
                             <div><small>最低血圧</small><br><strong>${r.diastolic}</strong></div>
                             <div><small>脈拍</small><br><strong>${r.pulse}</strong></div>
-                            <div style="font-size: 32px;">${r.timeOfDay === '朝' ? '🌅' : r.timeOfDay === '昼' ? '🌞' : '🌙'}</div>
+                            <div style="font-size: 32px;">${r.timeOfDay === '朝' ? '朝' : r.timeOfDay === '昼' ? '昼' : '夜'}</div>
                         </div>
                     </div>
                 `).join('');
@@ -530,7 +530,7 @@
                 <h3>${new Date(records[0].date).toLocaleDateString('ja-JP')} の記録</h3>
                 ${records.map(r => `
                     <div class="record-card" onclick="editRecord('${r.date}')">
-                        <div>${r.timeOfDay === '朝' ? '🌅 朝' : r.timeOfDay === '昼' ? '🌞 昼' : '🌙 夜'}</div>
+                        <div>${r.timeOfDay === '朝' ? '朝 朝' : r.timeOfDay === '昼' ? '昼 昼' : '夜 夜'}</div>
                         <div class="record-values">
                             <div><small>最高</small><br><strong>${r.systolic}</strong></div>
                             <div>/</div>
@@ -555,9 +555,9 @@
                 <input type="number" id="editDia" value="${record.diastolic}" placeholder="最低血圧">
                 <input type="number" id="editPul" value="${record.pulse}" placeholder="脈拍">
                 <div class="time-buttons">
-                    <button class="time-btn ${record.timeOfDay === '朝' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('朝')">🌅</button>
-                    <button class="time-btn ${record.timeOfDay === '昼' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('昼')">🌞</button>
-                    <button class="time-btn ${record.timeOfDay === '夜' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('夜')">🌙</button>
+                    <button class="time-btn ${record.timeOfDay === '朝' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('朝')">朝</button>
+                    <button class="time-btn ${record.timeOfDay === '昼' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('昼')">昼</button>
+                    <button class="time-btn ${record.timeOfDay === '夜' ? 'btn-primary' : 'btn-secondary'}" onclick="setEditTime('夜')">夜</button>
                 </div>
                 <button class="btn-danger" style="width: 100%; margin: 16px 0;" onclick="deleteRecord('${date}')">この記録を削除</button>
                 <div style="display: flex; gap: 8px;">
@@ -716,4 +716,5 @@
     </script>
 </body>
 </html>
+
 
